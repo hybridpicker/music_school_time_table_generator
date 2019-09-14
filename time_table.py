@@ -12,12 +12,12 @@ class Student():
         self.till_time = till_time
         
     def blocked_min_list(list_obj, day, key):
-        string = result[day][key][0]
+        string = time_table[day][key][0]
         hours = string[0:2]
         minutes = string[3:5]
         x = timedelta(hours=int(hours), minutes=int(minutes))
         # add every minute already used in list
-        while str(x) not in result[day][key][1]:
+        while str(x) not in time_table[day][key][1]:
             list_obj.append(str(x))
             x += timedelta(minutes = 1)      
         list_obj.sort()
@@ -40,10 +40,10 @@ class Student():
             i = 0
             blocked_min = []
             # Check if dict is not empty
-            if bool(result[day]) is True:
+            if bool(time_table[day]) is True:
                 # get latest index out of dict
-                i = int(sorted(result[day].keys())[-1])
-                for key in result[day]:
+                i = int(sorted(time_table[day].keys())[-1])
+                for key in time_table[day]:
                     blocked_min = blocked_min_list(blocked_min, day, key)
             for student in students:
                 student_name = student.first_name + " " + student.last_name
@@ -84,7 +84,7 @@ class Student():
                         blocked_min = Student.blocked_min_list_new_items(blocked_min, 
                                                                          str(from_time), 
                                                                          str(student_till_time))
-                result[day][i] = student_list
+                time_table[day][i] = student_list
                 i += 1
     
 s1 = Student('John', 'Clarke', timedelta(minutes = 25), 0, timedelta(hours = 14, minutes = 0), None)
@@ -104,7 +104,7 @@ s11 = Student('John', 'Snow', timedelta(minutes = 25), 0, timedelta(hours = 14, 
 students = [s1, s2, s3, s5, s6, s7]        
 
 week_days = ["Monday"]
-result = { x : {} for x in week_days}
+time_table = { x : {} for x in week_days}
     
 Student.generate_time()
-print(result)
+print(time_table)
